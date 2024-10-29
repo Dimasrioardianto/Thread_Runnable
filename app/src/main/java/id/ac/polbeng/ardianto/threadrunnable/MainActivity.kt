@@ -1,6 +1,7 @@
 package id.ac.polbeng.ardianto.threadrunnable
 
 import android.annotation.SuppressLint
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -10,14 +11,14 @@ import id.ac.polbeng.ardianto.threadrunnable.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mHandler: Handler
+    //private lateinit var mHandler: Handler = utk kode 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mHandler = MyHandler()
+        //mHandler = MyHandler() = utk kode 3 kelas handler
 
 
         binding.button.setOnClickListener {
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             /**
              * kode 3(menggunakan kelas handler)
              */
-            Thread {
+            /*Thread {
                 killSomeTime()
             }.start()
         }
@@ -84,4 +85,28 @@ class MainActivity : AppCompatActivity() {
             println("i: $i")
         }
     }
+}*/
+            /**
+             * kode 4(kelas asyncTask)
+             */
+            Worker().execute()
+        }
+    }
+    @SuppressLint("StaticFieldLeak")
+    inner class Worker : AsyncTask<Void, String, Boolean>() {
+        override fun doInBackground(vararg p0: Void?): Boolean {
+            for (i in 1..20) {
+                publishProgress(i.toString())
+                Thread.sleep(2000)
+            }
+            return true
+        }
+        override fun onProgressUpdate(vararg values: String?) {
+            binding.textView.text = values[0]
+        }
+        override fun onPostExecute(result: Boolean?) {
+            println(result)
+        }
+    }
 }
+
