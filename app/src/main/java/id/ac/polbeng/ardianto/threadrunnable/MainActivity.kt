@@ -13,7 +13,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button.setOnClickListener {
-            val runnable = Worker()
+        /**
+        * Kode Runnable 1
+         */
+            /*val runnable = Worker()
             val thread = Thread(runnable)
             thread.start()
         }
@@ -27,6 +30,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun killSomeTime() {
         for (i in 1..20) {
+            Thread.sleep(2000)
+            println("i: $i")
+        }
+    }
+}*/
+        /**
+        * kode 2(mengupdate tampilan textview)
+        */
+        Thread {
+            killSomeTime()
+        }.start()
+        }
+    }
+    private fun killSomeTime() {
+        for (i in 1..20) {
+            runOnUiThread {
+                binding.textView.text = i.toString()
+            }
             Thread.sleep(2000)
             println("i: $i")
         }
